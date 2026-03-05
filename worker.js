@@ -44,20 +44,19 @@ Style: ${style}
 Return ONLY valid JSON:
 {"items":[{"headline":"...","scores":{"four_u":8,"clarity":9,"ctr_potential":8},"notes":"..."}]}
 `;
-
-    const r = await fetch("https://api.openai.com/v1/responses", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${env.OPENAI_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "gpt-4o-mini",
-        input: prompt,
-        max_output_tokens: 900,
-      }),
-    });
-
+const r = await fetch("https://api.openai.com/v1/responses", {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${env.OPENAI_API_KEY}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    model: "gpt-4o-mini",
+    input: prompt,
+    max_output_tokens: 900,
+    text: { format: { type: "json_object" } }
+  }),
+});
 const data = await r.json();
 
 // 1) Extract the model text from Responses API structure
