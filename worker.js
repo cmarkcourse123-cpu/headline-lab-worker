@@ -1,5 +1,15 @@
 export default {
   async fetch(request, env) {
+
+    const classKey = request.headers.get("x-class-key");
+
+    if (classKey !== env.CLASS_KEY) {
+      return new Response(
+        JSON.stringify({ error: "Unauthorized" }),
+        { status: 401, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
     const url = new URL(request.url);
 
     // --- CORS preflight ---
