@@ -77,31 +77,61 @@ export default {
     }
 
     // ---------- Prompt ----------
-    const prompt = `
+const prompt = `
 You are a senior content marketing copywriter and strict evaluator.
 
-Generate ${clampInt(n, 5, 20)} marketing headlines for:
+Generate marketing headlines for:
 Product/Offer: ${product}
 Audience: ${audience}
 Tone: ${tone}
-Style: ${style}
-Framework: ${framework}
+Style preference: ${style}
+Framework selection from UI: ${framework}
+
+IMPORTANT:
+Instead of using only one framework, generate a comparison set using these five frameworks:
+1. 4U
+2. PAS
+3. AIDA
+4. Curiosity Gap
+5. Benefit-first
+
+Generate exactly 2 headlines for each framework, for a total of 10 headlines.
+
+Framework definitions:
+- 4U = Useful, Urgent, Unique, Ultra-specific
+- PAS = Problem, Agitate, Solution
+- AIDA = Attention, Interest, Desire, Action
+- Curiosity Gap = create intrigue without being deceptive
+- Benefit-first = lead with the clearest user benefit
 
 Rules:
-- 8–12 words each (ok if 7–14 occasionally)
+- 8–12 words each (7–14 acceptable occasionally)
 - Avoid deceptive clickbait
-- Suitable for ads or blog titles
+- Suitable for ads, blog titles, or social posts
+- Make framework differences noticeable
+- Keep the audience in mind
 
 Return ONLY valid JSON in this exact shape:
 {
   "items": [
     {
+      "framework": "4U",
       "headline": "…",
-      "scores": { "four_u": 0, "clarity": 0, "ctr_potential": 0 },
+      "scores": {
+        "four_u": 0,
+        "clarity": 0,
+        "ctr_potential": 0
+      },
       "notes": "…"
     }
   ]
 }
+
+Scoring guidance:
+- four_u = strength on usefulness, urgency, uniqueness, and specificity
+- clarity = how instantly understandable the headline is
+- ctr_potential = likely click appeal in a digital environment
+- notes = one short sentence explaining why it works
 `;
 
     // ---------- Call OpenAI Responses API ----------
